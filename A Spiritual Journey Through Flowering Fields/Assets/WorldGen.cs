@@ -44,7 +44,6 @@ public class WorldGen : MonoBehaviour
     {
         Vector2 worldSize = new Vector2(1, 1);
         Vector3 roomSize = new Vector2(rooms[0].width, rooms[0].height) * tileSize;
-        UnityEngine.Random rand = new UnityEngine.Random();
 
         for (int r = 0; r < worldSize.x; r++)
         {

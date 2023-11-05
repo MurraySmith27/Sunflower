@@ -61,7 +61,6 @@ public class PlayerControl : MonoBehaviour
 
         foreach (AnimationClip clip in clips)
         {
-            Debug.Log(clip.name);
 
             if (clip.name.Contains("Roll"))
             {
@@ -106,9 +105,7 @@ public class PlayerControl : MonoBehaviour
         {
             this.dodgeAnimTimer += Time.deltaTime;
 
-            Debug.Log($"duration: {this.dodgeAnimDuration}");
             transform.position = Vector3.SmoothDamp(transform.position, this.dodgeDestination, ref this.currentDodgeVelocity, this.dodgeAnimDuration);
-            Debug.Log($"duration: {this.dodgeAnimDuration}");
             if (this.dodgeAnimTimer >= this.dodgeAnimDuration)
             {
                 //animation is done, move back to idle

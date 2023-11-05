@@ -44,6 +44,7 @@ public class WorldGen : MonoBehaviour
     {
         Vector2 worldSize = new Vector2(1, 1);
         Vector3 roomSize = new Vector2(rooms[0].width, rooms[0].height) * tileSize;
+        
 
         for (int r = 0; r < worldSize.x; r++)
         {
@@ -63,6 +64,9 @@ public class WorldGen : MonoBehaviour
 
         Color32[] pixels = tile.GetPixels32();
 
+        Vector3 dir1 = new Vector3(2.33f, 0, -0.2f);
+        Vector3 dir2 = new Vector3(-0.2f, 0, 2.33f);
+
         for(int i  = 0; i  < pixels.Length; i++)
         {
             int row = i / tile.width;
@@ -73,7 +77,7 @@ public class WorldGen : MonoBehaviour
             int redVal = pixels[i].r;
 
             if (colorMap.ContainsKey(redVal)) {
-                Vector3 tilePos = new Vector3(row * tileSize, 0, col * tileSize) + position;
+                Vector3 tilePos = row * tileSize * dir1 + col * tileSize * dir2 + position;
                 Instantiate(colorMap[redVal], tilePos, Quaternion.identity);
 
             } else

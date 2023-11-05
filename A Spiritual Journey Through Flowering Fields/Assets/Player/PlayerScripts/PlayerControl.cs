@@ -24,24 +24,56 @@ public class PlayerControl : MonoBehaviour
 
     public Animator playerAnimator;
 
-    public float dodgeAnimDuration = 1f;
+    public float dodgeStartingVelocity = 2f;
+    private Vector3 dodgeDestination;
+    private Vector3 currentDodgeVelocity;
 
-    public float attackAnimDuration = 0.4f;
+    public float dodgeLength = 2f;
 
-    public float attackAnimHitboxActiveStart = 0.25f;
+    private float dodgeAnimDuration;
 
-    public float attackAnimHitboxActiveEnd = 0.325f;
+    public float dodgeAnimSpeed;
+    
+    private float dodgeAnimTimer = 0f;
+
+    private float attackAnimHitboxActiveStart;
+
+    private float attackAnimHitboxActiveEnd;
 
     public BoxCollider attackHitBox;
 
+    private float attackAnimDuration;
+
+    public float attackAnimSpeed;
+
     private float attackAnimTimer = 0f;
 
-    private float dodgeAnimTimer = 0f;
+    private Vector3 RIGHT_VECTOR = new Vector3(1, 0, -1);
+    private Vector3 UP_VECTOR = new Vector3(1, 0, 1);
+
 
     void Awake()
     {
         dodgeAction.performed += ctx => { this.OnDodge(ctx); };
         attackAction.performed += ctx => { this.OnAttack(ctx); };
+
+        AnimationClip[] clips = playerAnimator.runtimeAnimatorController.animationClips;
+
+        foreach (AnimationClip clip in clips)
+        {
+            Debug.Log(clip.name);
+
+            if (clip.name.Contains("Roll"))
+            {
+                this.dodgeAnimDuration = clip.length / this.dodgeAnimSpeed;
+            }
+            else if (clip.name.Contains("Attack"))
+            {
+                this.attackAnimDuration = clip.length / this.attackAnimSpeed;
+                this.attackAnimHitboxActiveStart = this.attackAnimDuration * 5 / 8;
+                this.attackAnimHitboxActiveEnd = this.attackAnimDuration * 63 / 80;
+            }
+        }
     }
 
     // Update is called once per frame
@@ -73,6 +105,10 @@ public class PlayerControl : MonoBehaviour
         if (this.currentState == PLAYER_STATE.DODGING)
         {
             this.dodgeAnimTimer += Time.deltaTime;
+
+            Debug.Log($"duration: {this.dodgeAnimDuration}");
+            transform.position = Vector3.SmoothDamp(transform.position, this.dodgeDestination, ref this.currentDodgeVelocity, this.dodgeAnimDuration);
+            Debug.Log($"duration: {this.dodgeAnimDuration}");
             if (this.dodgeAnimTimer >= this.dodgeAnimDuration)
             {
                 //animation is done, move back to idle
@@ -88,9 +124,10 @@ public class PlayerControl : MonoBehaviour
             {
                 moveAmount = moveAmount.normalized;
             }
+            Vector3 moveVector = (moveAmount.x * RIGHT_VECTOR + moveAmount.y * UP_VECTOR).normalized;
 
-            transform.Translate(new Vector3(moveAmount.x, 0, moveAmount.y) * this.playerSpeed * Time.deltaTime);
-            transform.LookAt(new Vector3(moveAmount.x, transform.position.y, moveAmount.y));
+            transform.Translate(moveVector * this.playerSpeed * Time.deltaTime, relativeTo: Space.World);
+            transform.LookAt(transform.position + moveVector);
         }
         else if (moveAmount.magnitude == 0 && this.currentState == PLAYER_STATE.MOVING)
         {
@@ -106,6 +143,8 @@ public class PlayerControl : MonoBehaviour
         this.currentState = PLAYER_STATE.DODGING;
         this.dodgeAnimTimer = 0f;
 
+        this.dodgeDestination = transform.position + transform.forward * this.dodgeLength;
+        this.currentDodgeVelocity = transform.forward.normalized * this.dodgeStartingVelocity;
     }
 
     public void OnAttack(InputAction.CallbackContext context)

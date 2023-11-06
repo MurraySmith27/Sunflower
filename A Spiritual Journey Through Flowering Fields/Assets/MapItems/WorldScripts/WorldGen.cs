@@ -23,7 +23,7 @@ public class WorldGen : MonoBehaviour
     {
         foreach(ColorMapping map in mappings)
         {
-            colorMap.Add(map.col.r, map.tile);
+            colorMap.Add(map.col.r * 1000000 + map.col.g * 1000 + map.col.b, map.tile);
         }
     }
 
@@ -71,18 +71,15 @@ public class WorldGen : MonoBehaviour
         {
             int row = i / tile.width;
             int col = i % tile.height;
-
-            //int nearestFactor = 5;
-            //int redVal = (int)(Mathf.Round(pixels[i].r / nearestFactor)) * nearestFactor;
-            int redVal = pixels[i].r;
-
-            if (colorMap.ContainsKey(redVal)) {
+            
+            int key = pixels[i].r * 1000000 + pixels[i].g * 1000 + pixels[i].b;
+            if (colorMap.ContainsKey(key)) {
                 Vector3 tilePos = row * tileSize * dir1 + col * tileSize * dir2 + position;
-                Instantiate(colorMap[redVal], tilePos, Quaternion.identity);
+                Instantiate(colorMap[key], tilePos, Quaternion.identity);
 
             } else
             {
-                Debug.Log(redVal);
+                Debug.Log(key);
             }
         }
     }

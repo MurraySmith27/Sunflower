@@ -11,6 +11,8 @@ public class PlayerControl : MonoBehaviour
 
     public float playerSpeed = 0.1f;
 
+    public bool beingAttacked = false;
+
     public enum PLAYER_STATE
     {
         IDLE,
@@ -51,9 +53,10 @@ public class PlayerControl : MonoBehaviour
     private Vector3 RIGHT_VECTOR = new Vector3(1, 0, -1);
     private Vector3 UP_VECTOR = new Vector3(1, 0, 1);
 
-
     void Awake()
-    {
+    {   
+        CameraControl cameraControl = Camera.main.GetComponent<CameraControl>();
+        cameraControl.StartCamera();
         dodgeAction.performed += ctx => { this.OnDodge(ctx); };
         attackAction.performed += ctx => { this.OnAttack(ctx); };
 
@@ -76,7 +79,7 @@ public class PlayerControl : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         Vector2 moveAmount = this.moveAction.ReadValue<Vector2>();
 
@@ -148,6 +151,12 @@ public class PlayerControl : MonoBehaviour
     {
         this.currentState = PLAYER_STATE.ATTACKING;
         this.attackAnimTimer = 0f;
+    }
+    
+    //called when the player gets hit.
+    public void OnHit() {
+        Debug.Log("Player Hit!");
+        return;
     }
 
     public void OnEnable()

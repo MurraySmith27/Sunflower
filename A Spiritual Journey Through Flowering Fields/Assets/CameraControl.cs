@@ -4,14 +4,19 @@ using UnityEngine;
 
 public class CameraControl : MonoBehaviour
 {
-    public GameObject player;
+    private Transform player;
     private Vector3 playerOffset;
-    void Start() {
-        this.playerOffset = transform.position - player.transform.position;
+    private bool cameraStarted = false;
+    public void StartCamera() {
+        this.player = GameObject.FindGameObjectsWithTag("Player")[0].transform;
+        this.playerOffset = transform.position - player.position;
+        this.cameraStarted = true;
     }
     // Update is called once per frame
     void Update()
     {
-        transform.position = this.playerOffset + new Vector3(this.player.transform.position.x, 0, this.player.transform.position.z);
+        if (this.cameraStarted) {
+            transform.position = this.playerOffset + new Vector3(this.player.position.x, 0, this.player.position.z);
+        }
     }
 }

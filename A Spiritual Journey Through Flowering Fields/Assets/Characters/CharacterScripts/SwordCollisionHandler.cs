@@ -9,4 +9,9 @@ public class SwordCollisionHandler : MonoBehaviour
             collision.gameObject.GetComponent<CrowControl>().OnHit();
         }
     }
+
+    //HACK:
+    void Update() {
+        transform.position = transform.parent.position;
+    }
 }

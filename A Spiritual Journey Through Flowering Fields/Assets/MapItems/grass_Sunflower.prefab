@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1285915693829545109}
   - component: {fileID: 5268598638943461828}
+  - component: {fileID: 3773740675892065098}
   m_Layer: 0
   m_Name: grass_Sunflower
   m_TagString: Untagged
@@ -47,6 +48,22 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 2, y: 2, z: 2}
   m_Center: {x: 0, y: 1.6084981, z: 0}
+--- !u!54 &3773740675892065098
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6173788757199353717}
+  serializedVersion: 2
+  m_Mass: 0.0000001
+  m_Drag: 0
+  m_AngularDrag: 0
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 126
+  m_CollisionDetection: 0
 --- !u!1 &7759834859401403538
 GameObject:
   m_ObjectHideFlags: 0
@@ -109,7 +126,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 8a5802a3a2ed1d04890ef971e35ee70a, type: 2}
+  - {fileID: 2100000, guid: a4621ba794e68fd4195e2bde5037e558, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -153,7 +170,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7503389592238308571}
   - component: {fileID: 2104313168283939297}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: collider
   m_TagString: Untagged
   m_Icon: {fileID: 0}

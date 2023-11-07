@@ -27,35 +27,22 @@ public class WorldGen : MonoBehaviour
         }
     }
 
-    // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         addColorMapping();
-        generateWorld();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
 
-    }
-
-    void generateWorld()
+    public void GenerateMap(int worldIndex)
     {
         Vector2 worldSize = new Vector2(1, 1);
-        Vector3 roomSize = new Vector2(rooms[0].width, rooms[0].height) * tileSize;
+        Vector3 roomSize = new Vector2(rooms[worldIndex].width, rooms[worldIndex].height) * tileSize;
         
 
-        for (int r = 0; r < worldSize.x; r++)
-        {
-            for(int c = 0; c < worldSize.y; c++)
-            {
-                Vector3 pos = new Vector3(r * roomSize.x, 0, c * roomSize.y);
-                int tileIndex = UnityEngine.Random.Range(0, rooms.Count);
-                Texture2D tile = rooms[tileIndex];
-                generateRoom(tile, pos, tileSize);
-            }
-        }
+        Vector3 pos = Vector3.zero;
+
+        Texture2D tile = rooms[worldIndex];
+        generateRoom(tile, pos, tileSize);
     }
     
 
@@ -79,7 +66,7 @@ public class WorldGen : MonoBehaviour
 
             } else
             {
-                Debug.Log(key);
+                Debug.LogError($"Invalid Key: {key}");
             }
         }
     }

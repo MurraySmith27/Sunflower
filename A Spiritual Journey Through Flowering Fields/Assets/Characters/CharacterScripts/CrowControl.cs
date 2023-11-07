@@ -99,11 +99,13 @@ public class CrowControl : MonoBehaviour
     }
 
     public void OnHit() {
-        Debug.Log("crow hit!");
-        Destroy(this);
+        if (this.attackMode) {
+            this.playerControl.beingAttacked = false;
+        }
+        GameObject.FindGameObjectsWithTag("WorldControl")[0].GetComponent<WorldControl>().CrowKilled();
+        Destroy(this.gameObject);
     }
 
-    //TODO: On crow death set playerControl.beingAttacked = false
     void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.layer == LayerMask.NameToLayer("Player")) {

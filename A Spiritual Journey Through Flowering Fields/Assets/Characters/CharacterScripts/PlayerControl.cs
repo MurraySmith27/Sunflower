@@ -140,6 +140,9 @@ public class PlayerControl : MonoBehaviour
 
     public void OnDodge(InputAction.CallbackContext context)
     {
+        if (this.currentState == PLAYER_STATE.DODGING) {
+            return;
+        }
         this.currentState = PLAYER_STATE.DODGING;
         this.dodgeAnimTimer = 0f;
 
@@ -149,14 +152,16 @@ public class PlayerControl : MonoBehaviour
 
     public void OnAttack(InputAction.CallbackContext context)
     {
+        if (this.currentState == PLAYER_STATE.ATTACKING) {
+            return;
+        }
         this.currentState = PLAYER_STATE.ATTACKING;
         this.attackAnimTimer = 0f;
     }
-    
+
     //called when the player gets hit.
     public void OnHit() {
-        Debug.Log("Player Hit!");
-        return;
+        
     }
 
     public void OnEnable()
